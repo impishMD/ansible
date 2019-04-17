@@ -1,0 +1,45 @@
+---
+- name: first docker installation 
+  hosts: local_centos
+  become: yes
+
+
+  tasks:
+  - name: remove old version docker
+    yum:
+      name: 
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+      state: absent
+
+  - name: install utils
+    yum:
+      name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      state: latest
+
+  - name: add repo docker
+    shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: install docker-ce
+    yum: 
+      name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      state: latest
+      disable_gpg_check: yes
+
+  - name: start & enable docker
+    service: 
+      name: docker
+      state: started
+      enabled: yes
