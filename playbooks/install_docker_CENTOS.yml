@@ -1,11 +1,11 @@
 ---
-- name: first docker installation 
+- name: Docker-ce installation 
   hosts: local_centos
   become: yes
 
 
   tasks:
-  - name: remove old version docker
+  - name: Remove old version Docker
     yum:
       name: 
       - docker
@@ -26,7 +26,7 @@
       - lvm2
       state: latest
 
-  - name: add repo docker
+  - name: add Docker repository
     shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
   - name: install docker-ce
@@ -38,7 +38,7 @@
       state: latest
       disable_gpg_check: yes
 
-  - name: start & enable docker
+  - name: Start & Enable Docker
     service: 
       name: docker
       state: started
